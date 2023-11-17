@@ -1,7 +1,6 @@
-
 const App = () => {
   return (
-    <div>First Commit</div>
+    <div className="3xl underline font-lg">First Commit</div>
   )
 }
 
