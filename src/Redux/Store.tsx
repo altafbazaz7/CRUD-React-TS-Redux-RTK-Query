@@ -1,18 +1,18 @@
 import { configureStore } from "@reduxjs/toolkit";
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { pokemonApi } from "./API/pokemonApi";
-import { counterSlice } from "./Slices/appSlice";
+import appSlice from "./Slices/appSlice";
+import { jobsApi } from "./API/jobsApi";
 
 export const Store = configureStore({
   reducer: {
-    [pokemonApi.reducerPath]: pokemonApi.reducer,
+    [jobsApi.reducerPath]: jobsApi.reducer,
     // @ts-ignore
-    counter: counterSlice,
+    app: appSlice,
   },
   //   @ts-ignore
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(pokemonApi.middleware),
+    getDefaultMiddleware().concat(jobsApi.middleware),
 });
 
 setupListeners(Store.dispatch);

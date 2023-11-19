@@ -1,7 +1,17 @@
-const App = () => {
-  return (
-    <div className="3xl underline font-lg">First Commit</div>
-  )
-}
+import { useEffect } from "react";
+import Form from "./Components/Form";
+import { useAppDispatch, useAppSelector } from "./Redux/Hooks";
+import { setIsFormOpenInStore } from "./Redux/Slices/appSlice";
 
-export default App
+const App = () => {
+  const dispatch = useAppDispatch();
+  const isFormOpen = useAppSelector((state) => state?.app?.isFormOpen);
+
+  useEffect(() => {
+    dispatch(setIsFormOpenInStore(true));
+  }, [dispatch]);
+
+  return <>{isFormOpen && <Form />}</>;
+};
+
+export default App;
