@@ -1,23 +1,32 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface Job {
-}
+interface Job {}
 
 export const jobsApi = createApi({
   reducerPath: "jobsApi",
+  tagTypes: ["JOBS"],
   baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
   endpoints: (builder) => ({
-    getJobs: builder.query<Job | any, string>({
-      query: (name) => `/details`,
+    getJobs: builder.query<undefined, any>({
+      query: () => `/details`,
+      providesTags: ["JOBS"],
     }),
     createJob: builder.mutation<Job, Partial<Job>>({
       query: (newJob) => ({
-        url: "/details", 
+        url: "/details",
         method: "POST",
         body: newJob,
       }),
+      invalidatesTags: ["JOBS"],
+    }),
+    deleteJob: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/details/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["JOBS"],
     }),
   }),
 });
 
-export const { useGetJobsQuery, useCreateJobMutation } = jobsApi;
+export const { useGetJobsQuery, useCreateJobMutation, useDeleteJobMutation } = jobsApi;

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Form from "./Components/Form";
 import { useAppDispatch, useAppSelector } from "./Redux/Hooks";
 import { setIsFormOpenInStore } from "./Redux/Slices/appSlice";
+import AllJobs from "./Components/AllJobs";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -11,7 +12,12 @@ const App = () => {
     dispatch(setIsFormOpenInStore(true));
   }, [dispatch]);
 
-  return <>{isFormOpen && <Form />}</>;
+  return (
+    <>
+      <AllJobs />
+      {isFormOpen && <Form />}
+    </>
+  );
 };
 
 export default App;

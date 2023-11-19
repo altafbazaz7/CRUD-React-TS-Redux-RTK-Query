@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
-    display: flex;
-    justify-content: center;
-    height: 100vh;
+body {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  overflow-x: hidden;
 }
 
-.visibility_hidden{visibility: hidden;}
+.visibility_hidden {
+  visibility: hidden;
+}
+
+.card__wrapper {
+  border-radius: 10px;
+  border: 1px solid #dadedf;
+  background: var(--elements-color-card-color-ffffff, #fff);
+}
+
