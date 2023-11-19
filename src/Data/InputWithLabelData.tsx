@@ -5,6 +5,7 @@ export const InputWithLabelDataArr = [
     isRequired: true,
     width: "100%",
     valueToFunction: "jobTitle",
+    isText: true,
   },
   {
     title: "Company Name",
@@ -12,6 +13,7 @@ export const InputWithLabelDataArr = [
     isRequired: true,
     width: "100%",
     valueToFunction: "companyName",
+    isText: true,
   },
   {
     title: "Industry",
@@ -19,6 +21,7 @@ export const InputWithLabelDataArr = [
     isRequired: true,
     width: "100%",
     valueToFunction: "industry",
+    isText: true,
   },
   {
     title: "Location",
@@ -26,6 +29,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "location",
+    isText: true,
   },
   {
     title: "Remote Type",
@@ -33,6 +37,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "remoteType",
+    isText: true,
   },
   {
     title: "Experience",
@@ -40,6 +45,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "experience",
+    isNumber: true,
   },
   {
     title: "Max Experience",
@@ -47,6 +53,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "maxExperience",
+    isNumber: true,
   },
   {
     title: "Salary",
@@ -54,6 +61,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "salary",
+    isNumber: true,
   },
   {
     title: "Max Salary",
@@ -61,6 +69,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "40%",
     valueToFunction: "maxSalary",
+    isNumber: true,
   },
   {
     title: "Total employee",
@@ -68,6 +77,7 @@ export const InputWithLabelDataArr = [
     isRequired: false,
     width: "100%",
     valueToFunction: "totalEmployee",
+    isNumber: true,
   },
   {
     title: "Apply Type",

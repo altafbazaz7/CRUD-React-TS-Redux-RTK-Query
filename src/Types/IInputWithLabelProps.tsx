@@ -5,4 +5,5 @@ export interface IInputWithLabelProps {
   width: string;
   onChange: any;
   value? : string | any;
+  isText?: boolean;
 }

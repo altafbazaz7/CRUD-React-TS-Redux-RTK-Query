@@ -4,7 +4,6 @@ import { InputWithLabelDataArr } from "../Data/InputWithLabelData";
 import InputWithLabel from "./InputWithLabel";
 import FormHeader from "./FormHeader";
 import {
-  jobsApi,
   useCreateJobMutation,
   useEditJobMutation,
   useGetJobsQuery,
@@ -17,10 +16,9 @@ const Form = () => {
   const selectedEditId = useAppSelector((state) => state.app.selectedId);
   const [createJob] = useCreateJobMutation();
   const [editJob] = useEditJobMutation();
-
   const [stage, setStage] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string>>({});
-  const { data: jobsData, isLoading, error } = useGetJobsQuery<any>({});
+  const { data: jobsData } = useGetJobsQuery<any>({});
   const formRef = useRef<HTMLDivElement | any>();
 
   useEffect(() => {
@@ -34,27 +32,26 @@ const Form = () => {
 
   const handleAddJobPosting = async () => {
     try {
-      const result = await createJob(formData);
+      await createJob(formData);
     } catch (error) {
       console.error("Error creating job:", error);
     }
 
     dispatch(resetIsFormOpenInStore(false));
   };
-  
-  const handleUpdatePosting = async(selectedEditId: number | string) => {
+
+  const handleUpdatePosting = async (selectedEditId: number | string) => {
     try {
-      const result = await editJob({
+      await editJob({
         id: selectedEditId,
         editJob: formData,
       });
-
     } catch (error) {
       console.error("Error creating job:", error);
     }
 
     dispatch(resetIsFormOpenInStore(false));
-  }
+  };
 
   const handleChange = (fieldName: string, value: string) => {
     setFormData((prevData) => ({
@@ -100,6 +97,8 @@ const Form = () => {
                         handleChange(elem.valueToFunction, e.target.value)
                       }
                       value={formData[elem.valueToFunction] || ""}
+                      isText={elem.isText}
+
                     />
                   )
                 )}
@@ -117,6 +116,7 @@ const Form = () => {
                         handleChange(elem.valueToFunction, e.target.value)
                       }
                       value={formData[elem.valueToFunction] || ""}
+                      isText={elem.isText}
                     />
                   )
                 )}
@@ -138,6 +138,8 @@ const Form = () => {
                         handleChange(elem.valueToFunction, e.target.value)
                       }
                       value={formData[elem.valueToFunction] || ""}
+                      isText={elem.isText}
+
                     />
                   )
                 )}
@@ -155,6 +157,8 @@ const Form = () => {
                         handleChange(elem.valueToFunction, e.target.value)
                       }
                       value={formData[elem.valueToFunction] || ""}
+                      isText={elem.isText}
+
                     />
                   )
                 )}
@@ -218,7 +222,11 @@ const Form = () => {
           <button
             className="flex px-[16px]  py-[8px] rounded-md bg-buttonBg text-white shadow-sm absolute right-[10px] bottom-[17px] "
             onClick={() => {
-              stage === 1 ? setStage(2) : formData.id ? handleUpdatePosting(selectedEditId) : handleAddJobPosting();
+              stage === 1
+                ? setStage(2)
+                : formData.id
+                ? handleUpdatePosting(selectedEditId)
+                : handleAddJobPosting();
             }}
           >
             {stage === 1 ? "Next" : "Save"}
