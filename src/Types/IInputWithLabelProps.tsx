@@ -4,4 +4,5 @@ export interface IInputWithLabelProps {
   isRequired?: boolean;
   width: string;
   onChange: any;
+  value? : string | any;
 }

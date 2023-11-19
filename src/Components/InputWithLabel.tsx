@@ -5,7 +5,8 @@ const InputWithLabel = ({
   placeholder,
   isRequired,
   width,
-  onChange
+  onChange,
+  value
 }: IInputWithLabelProps) => {
   return (
     <div>
@@ -22,6 +23,7 @@ const InputWithLabel = ({
         <input
           type="text"
           onChange={onChange}
+          value={value}
           className={`block w-[${width}] rounded-md border-0 py-1.5 pl-3 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6`}
           placeholder={placeholder}
         />

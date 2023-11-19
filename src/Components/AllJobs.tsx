@@ -11,13 +11,7 @@ interface Job {
 const AllJobs = () => {
   const dispatch = useAppDispatch();
 
-  const {
-    data: jobsData,
-    isLoading: isJobsLoading,
-    error: jobsError,
-  } = useGetJobsQuery<Job[] | any>({});
-
-
+  const { data: jobsData, isLoading, error } = useGetJobsQuery<Job[] | any>({});
 
   return (
     <>
@@ -30,8 +24,8 @@ const AllJobs = () => {
 
       <div className="absolute left-[15%] flex flex-row flex-wrap w-[90%] gap-[50px]">
         {jobsData?.map((job: Job | any) => (
-            // @ts-ignore
-          <JobCard key={job.id} job={job}/>
+          // @ts-ignore
+          <JobCard key={job.id} job={job} />
         ))}
       </div>
     </>

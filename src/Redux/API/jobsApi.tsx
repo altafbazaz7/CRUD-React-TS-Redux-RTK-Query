@@ -26,7 +26,20 @@ export const jobsApi = createApi({
       }),
       invalidatesTags: ["JOBS"],
     }),
+    editJob: builder.mutation<Job, { id: number | string; editJob: Partial<Job> | any }>({
+      query: ({ id, editJob }) => ({
+        url: `/details/${id}`,
+        method: "PUT",
+        body: editJob,
+      }),
+      invalidatesTags: ["JOBS"],
+    }),
   }),
 });
 
-export const { useGetJobsQuery, useCreateJobMutation, useDeleteJobMutation } = jobsApi;
+export const {
+  useGetJobsQuery,
+  useCreateJobMutation,
+  useDeleteJobMutation,
+  useEditJobMutation,
+} = jobsApi;

@@ -6,25 +6,31 @@ import FormHeader from "./FormHeader";
 import {
   jobsApi,
   useCreateJobMutation,
+  useEditJobMutation,
   useGetJobsQuery,
 } from "../Redux/API/jobsApi";
-import { useAppDispatch } from "../Redux/Hooks";
-import { resetIsFormOpenInStore } from "../Redux/Slices/appSlice";
+import { useAppDispatch, useAppSelector } from "../Redux/Hooks";
+import { resetEditId, resetIsFormOpenInStore } from "../Redux/Slices/appSlice";
 
 const Form = () => {
   const dispatch = useAppDispatch();
+  const selectedEditId = useAppSelector((state) => state.app.selectedId);
   const [createJob] = useCreateJobMutation();
-  const {
-    data: jobsData,
-    isLoading: isJobsLoading,
-    error: jobsError,
-    refetch,
-  } = useGetJobsQuery({});
-
-  console.log(jobsData, "JOBSdATA");
+  const [editJob] = useEditJobMutation();
 
   const [stage, setStage] = useState<number>(1);
   const [formData, setFormData] = useState<Record<string, string>>({});
+  const { data: jobsData, isLoading, error } = useGetJobsQuery<any>({});
+  const formRef = useRef<HTMLDivElement | any>();
+
+  useEffect(() => {
+    if (selectedEditId) {
+      let foundJob = jobsData.find(
+        (elem: Object | any) => elem.id === selectedEditId
+      );
+      setFormData(foundJob);
+    }
+  }, [selectedEditId]);
 
   const handleAddJobPosting = async () => {
     try {
@@ -35,6 +41,20 @@ const Form = () => {
 
     dispatch(resetIsFormOpenInStore(false));
   };
+  
+  const handleUpdatePosting = async(selectedEditId: number | string) => {
+    try {
+      const result = await editJob({
+        id: selectedEditId,
+        editJob: formData,
+      });
+
+    } catch (error) {
+      console.error("Error creating job:", error);
+    }
+
+    dispatch(resetIsFormOpenInStore(false));
+  }
 
   const handleChange = (fieldName: string, value: string) => {
     setFormData((prevData) => ({
@@ -43,10 +63,10 @@ const Form = () => {
     }));
   };
 
-  const formRef = useRef<HTMLDivElement | any>();
   const handleOutsideClick = (e: MouseEvent) => {
     if (formRef.current && !formRef.current.contains(e.target as Node)) {
       dispatch(resetIsFormOpenInStore(false));
+      dispatch(resetEditId(""));
     }
   };
 
@@ -65,10 +85,8 @@ const Form = () => {
       <div className="flex p-[32px] flex-col items-center rounded-lg border border-gray-300 bg-white w-[545px] mt-[50px] relative h-[575px]">
         <FormHeader stage={stage} />
         <div className="w-[513px] flex flex-col gap-[24px]">
-          {/* Form content based on the current stage */}
           {stage === 1 && (
             <>
-              {/* Input fields for stage 1 */}
               <div className="flex flex-col gap-[24px]">
                 {InputWithLabelDataArr.slice(0, 3).map(
                   (elem: any, index: number) => (
@@ -81,6 +99,7 @@ const Form = () => {
                       onChange={(e: any) =>
                         handleChange(elem.valueToFunction, e.target.value)
                       }
+                      value={formData[elem.valueToFunction] || ""}
                     />
                   )
                 )}
@@ -97,6 +116,7 @@ const Form = () => {
                       onChange={(e: any) =>
                         handleChange(elem.valueToFunction, e.target.value)
                       }
+                      value={formData[elem.valueToFunction] || ""}
                     />
                   )
                 )}
@@ -117,6 +137,7 @@ const Form = () => {
                       onChange={(e: any) =>
                         handleChange(elem.valueToFunction, e.target.value)
                       }
+                      value={formData[elem.valueToFunction] || ""}
                     />
                   )
                 )}
@@ -133,6 +154,7 @@ const Form = () => {
                       onChange={(e: any) =>
                         handleChange(elem.valueToFunction, e.target.value)
                       }
+                      value={formData[elem.valueToFunction] || ""}
                     />
                   )
                 )}
@@ -196,7 +218,7 @@ const Form = () => {
           <button
             className="flex px-[16px]  py-[8px] rounded-md bg-buttonBg text-white shadow-sm absolute right-[10px] bottom-[17px] "
             onClick={() => {
-              stage === 1 ? setStage(2) : handleAddJobPosting();
+              stage === 1 ? setStage(2) : formData.id ? handleUpdatePosting(selectedEditId) : handleAddJobPosting();
             }}
           >
             {stage === 1 ? "Next" : "Save"}
